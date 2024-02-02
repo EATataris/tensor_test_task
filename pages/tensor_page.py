@@ -7,6 +7,11 @@ from .locators import TensorPageLocators
 
 
 class TensorHomePage(BasePage):
+    def testing_tensor_page(self):
+        self.is_block_sila_present()
+        self.go_to_about_page()
+        self.is_about_page_opened()
+        self.are_pictures_sizes_equal()
 
     def is_block_sila_present(self):
         try:
@@ -21,7 +26,6 @@ class TensorHomePage(BasePage):
     def go_to_about_page(self):
         about_link = self.browser.find_element(*TensorPageLocators.POWER_IN_PEOPLE_BLOCK_ABOUT)
         self.browser.execute_script(
-            # "arguments[0].scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});", about_link)
             "arguments[0].scrollIntoViewIfNeeded();", about_link)
         self.click_element(TensorPageLocators.POWER_IN_PEOPLE_BLOCK_ABOUT)
         time.sleep(3)
@@ -30,7 +34,7 @@ class TensorHomePage(BasePage):
         assert 'tensor.ru/about' in self.get_current_url(), 'Открыта какая-то хрень'
         print('Открытая ссылка является ссылкой "tensor.ru/about"')
 
-    def is_pictures_sizes_are_equal(self):
+    def are_pictures_sizes_equal(self):
         work_block = self.browser.find_element(*TensorPageLocators.WORK_BLOCK)
         self.browser.execute_script(
             "arguments[0].scrollIntoViewIfNeeded();", work_block)

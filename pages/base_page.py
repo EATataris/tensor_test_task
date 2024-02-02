@@ -1,6 +1,4 @@
-import time
-
-from selenium.common import NoSuchElementException, ElementClickInterceptedException
+from selenium.common import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -29,6 +27,8 @@ class BasePage():
     def get_current_url(self):
         return self.browser.current_url
 
+    def get_current_title(self):
+        return self.browser.title
+
     def open(self):
         self.browser.get(self.url)
-
