@@ -16,3 +16,4 @@ def test_go_to_contacts_page(browser):
     tensor_page.is_block_sila_present()
     tensor_page.go_to_about_page()
     tensor_page.is_about_page_opened()
+    tensor_page.is_pictures_sizes_are_equal()

@@ -6,6 +6,8 @@ class ContactsPageLocators():
     TENSOR_LINK = (By.XPATH, '//a[@href="https://tensor.ru/"]')
 
 
-class TensorPageLocator():
+class TensorPageLocators():
     POWER_IN_PEOPLE_BLOCK = (By.XPATH, '//p[contains(text(), "Сила в людях")]')
     POWER_IN_PEOPLE_BLOCK_ABOUT = (By.XPATH, '//a[@href="/about" and contains (@class, "tensor_ru-link")]')
+    WORK_BLOCK = (By.XPATH, '//h2[contains(text(), "Работаем")]')
+    IMAGE = (By.CSS_SELECTOR, '.tensor_ru-About__block3-image')
