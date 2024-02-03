@@ -1,7 +1,7 @@
 from .pages.sbis_page import SbisHomePage, SbisContactsPage
 
 
-def test_go_to_contacts_page(browser):
+def test_run(browser):
     link = "https://sbis.ru"
     page = SbisHomePage(browser, link)
     page.open()
