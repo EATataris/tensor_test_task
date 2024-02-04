@@ -1,4 +1,4 @@
-import os
+import os, time
 from .base_page import BasePage
 from .locators import SbisContactsPageLocators, SbisHomePageLocators, SbisDownloadPageLocators
 from selenium.webdriver.support.ui import WebDriverWait
@@ -96,24 +96,33 @@ class SbisDownloadPage(BasePage):
         self.browser.execute_script(f"window.location.href = '{new_url}';")
 
     def download_file(self):
-        current_dir = os.path.abspath(os.path.dirname(__file__))
+        current_dir = os.path.abspath(os.path.dirname(__file__)).rsplit('pages', 1)[0]
+        print(current_dir)
         download_link = self.browser.find_element(*SbisDownloadPageLocators.DOWNLOAD_LINK)
         self.click_element(download_link)
 
-        WebDriverWait(self.browser, 10).until(
-            lambda x: any(f.endswith('.exe') for f in os.listdir(current_dir))
-        )
 
-        downloaded_files = [f for f in os.listdir(current_dir) if f.endswith('.exe')]
-        print(f"Список скачанных файлов: {downloaded_files}")
+        # def download_wait(path_to_downloads):
+        # file_path = os.path.join(current_dir, 'sbisplugin-setup-web.exe')
+        #     seconds = 0
+        #     while not os.path.exists(file_path) and seconds < 20:
+        #         time.sleep(1)
+        #         seconds += 1
+        #     return seconds
+        #
+        # WebDriverWait(self.browser, 20).until(lambda x: download_wait(current_dir) < 20)
+        time.sleep(10)
+        downloaded_files = [f for f in os.listdir(current_dir) if f.endswith('sbisplugin-setup-web.exe')]
+        print(f"Список скачанных .exe файлов: {downloaded_files}")
+
         assert len(downloaded_files) == 1, "Скачивание файла не выполнено или скачано более одного файла"
 
     def compare_file_size(self):
-        current_dir = os.path.abspath(os.path.dirname(__file__))
+        current_dir = os.path.abspath(os.path.dirname(__file__)).rsplit('pages', 1)[0]
         downloaded_files = [f for f in os.listdir(current_dir) if f.endswith('.exe')]
         file_path = os.path.join(current_dir, downloaded_files[0])
 
-        file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
+        file_size_mb = float('%.2f' % (os.path.getsize(file_path) / (1024 * 1024)))
         expected_size_mb = float(self.browser.find_element(*SbisDownloadPageLocators.DOWNLOAD_LINK).text.split(' ')[2])
 
-        assert file_size_mb == expected_size_mb, f"Размер файла {file_path} составляет {file_size_mb} Мб, ожидалось {expected_size_mb} Мб"
+        assert file_size_mb == expected_size_mb, f"Размер файла составляет {file_size_mb} Мб, ожидалось {expected_size_mb} Мб"
